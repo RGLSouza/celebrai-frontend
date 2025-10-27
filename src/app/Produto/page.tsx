@@ -5,3 +5,5 @@ export default function Produto(){
     </div>
   )
 }
+
+{/*FAZER METADATA BASEADA NA URL/ID NO PRODUTO NESSA PAGINA*/}
