@@ -7,8 +7,7 @@ import HorariosPopup from "@/componentes/Vendedor/Horarios";
 {/*IMPLEMENTAR METADATA DINAMICA DO VENDEDOR POR ID*/}
 
 // SSR — dados carregam no servidor
-export const dynamic = "force-dynamic"; // força atualização
-export const revalidate = 60; // atualiza a cada 1 minuto (opcional)
+export const dynamic = "force-dynamic";
 
 async function getProdutos() {
   const res = await fetch("https://fakestoreapi.com/products?limit=5", {
