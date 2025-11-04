@@ -35,7 +35,7 @@ export default function HorariosPopup() {
         className="border-2 border-pink-600 text-pink-600 px-5 py-2 rounded-full flex items-center justify-center hover:bg-pink-50 transition"
       >
         <Clock size={16} className="mr-2" />
-        Horários/Frete
+        Conferir Disponibilidade
       </button>
 
       {/* Popup */}

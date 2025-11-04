@@ -7,9 +7,10 @@ async function getProduto(id: string) {
   return res.json();
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const produto = await getProduto(params.id);
-
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const produto = await getProduto(id);
+  
   return {
     title: `${produto.title} | Celebraí`,
     description: produto.description,
@@ -21,8 +22,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default async function ProdutoPage({ params }: { params: { id: string } }) {
-  const produto = await getProduto(params.id);
+export default async function ProdutoPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const produto = await getProduto(id);
 
   const imagens = [produto.image, produto.image, produto.image, produto.image];
   const vendedor = { 

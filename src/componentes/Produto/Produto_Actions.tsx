@@ -1,6 +1,9 @@
 import { ShoppingCart, MessageCircle, MapPin, Clock, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import HorariosPopup from "../Vendedor/Horarios";
+import ChatVendedor from "../Vendedor/Chat";
+
 
 interface ProdutoAcoesProps {
   price: number;
@@ -22,15 +25,15 @@ export default function ProdutoAcoes({ price, vendedor }: ProdutoAcoesProps) {
           Solicitar Compra
         </button>
 
-        <button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-lg flex items-center justify-center gap-2 transition shadow-lg">
-          <Clock className="w-5 h-5" />
-          Conferir Disponibilidade
-        </button>
+        {/* HorariosPopup com estilo roxo */}
+        <div className="[&>button]:w-full [&>button]:bg-gradient-to-r [&>button]:from-purple-500 [&>button]:to-purple-600 [&>button]:hover:from-purple-600 [&>button]:hover:to-purple-700 [&>button]:text-white [&>button]:font-semibold [&>button]:py-4 [&>button]:px-6 [&>button]:rounded-lg [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:gap-2 [&>button]:transition [&>button]:shadow-lg [&>button]:border-0">
+          <HorariosPopup />
+        </div>
 
-        <button className="w-full bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg border-2 border-gray-300 flex items-center justify-center gap-2 transition">
-          <MessageCircle className="w-5 h-5 text-pink-500" />
-          Chat com o vendedor
-        </button>
+        {/* ChatVendedor com estilo branco/borda - apenas o botão principal */}
+        <div className="[&>button]:w-full [&>button]:bg-white [&>button]:hover:bg-gray-50 [&>button]:text-gray-800 [&>button]:font-semibold [&>button]:py-4 [&>button]:px-6 [&>button]:rounded-lg [&>button]:border-2 [&>button]:border-pink-500 [&>button]:flex [&>button]:items-center [&>button]:justify-center [&>button]:gap-2 [&>button]:transition">
+          <ChatVendedor />
+        </div>
       </div>
 
       {/* Card do Vendedor */}
