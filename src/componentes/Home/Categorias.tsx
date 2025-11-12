@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { CATEGORIAS_FESTAS, API_CATEGORY_ICONS, type Categoria } from "@/lib/Constants/categorias";
 
 interface CategoriasSliderProps {
@@ -77,15 +78,16 @@ export default function CategoriasSlider({ categorias = [] }: CategoriasSliderPr
         <style jsx>{`div::-webkit-scrollbar { display: none; }`}</style>
         
         {todasCategorias.map((categoria, idx) => (
-          <button
+          <Link
             key={`${categoria.nome}-${idx}`}
+            href={`/categoria/${encodeURIComponent(categoria.nome)}`}
             className="flex flex-col items-center gap-2 min-w-[100px] bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex-shrink-0"
           >
             <div className="text-3xl">{categoria.icone}</div>
             <span className="text-sm font-medium text-gray-700 capitalize text-center">
               {categoria.nome}
             </span>
-          </button>
+          </Link>
         ))}
       </div>
 
