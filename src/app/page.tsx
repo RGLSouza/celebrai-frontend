@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { Search } from "lucide-react";
 import ProdutoCard from "@/componentes/Card_Produto/ProdutoCard";
 import BannerCarousel from "@/componentes/Home/Banner"
 import CategoriasSlider from "@/componentes/Home/Categorias";
+import SearchBar from "@/componentes/Home/searchBar";
 
 export const metadata: Metadata = {
   title: "Celebraí - Pagina Principal",
@@ -75,24 +75,8 @@ export default async function Home() {
             festa perfeita no <strong>Celebraí</strong>
           </h2>
           
-          {/* Search Bar */}
-          <form className="flex max-w-2xl mx-auto">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                name="search"
-                placeholder="Buscar 'Conjunto mesas e cadeiras'..."
-                 className="w-full bg-white pl-10 pr-4 py-3 rounded-l-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-            </div>
-            <button 
-              type="submit"
-              className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-r-lg font-medium transition-colors"
-            >
-              Buscar
-            </button>
-          </form>
+          {/* Search Bar Component */}
+          <SearchBar />
         </div>
       </div>
 
