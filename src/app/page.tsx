@@ -31,9 +31,20 @@ async function getProdutos() {
   try {
     const res = await fetch("https://fakestoreapi.com/products?limit=10", {
       cache: "no-store",
+      next: { revalidate: 0 },
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0'
+      }
     });
-    if (!res.ok) throw new Error("Falha ao buscar produtos");
-    return res.json();
+    
+    if (!res.ok) {
+      console.error("Erro ao buscar produtos:", res.status, res.statusText);
+      return [];
+    }
+    
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
     return [];
@@ -44,9 +55,20 @@ async function getCategorias() {
   try {
     const res = await fetch("https://fakestoreapi.com/products/categories", {
       cache: "no-store",
+      next: { revalidate: 0 },
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0'
+      }
     });
-    if (!res.ok) throw new Error("Falha ao buscar categorias");
-    return res.json();
+    
+    if (!res.ok) {
+      console.error("Erro ao buscar categorias:", res.status, res.statusText);
+      return [];
+    }
+    
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Erro ao buscar categorias:", error);
     return [];
@@ -54,10 +76,9 @@ async function getCategorias() {
 }
 
 export default async function Home() {
-  const [produtos, categorias] = await Promise.all([
-    getProdutos(),
-    getCategorias()
-  ]);
+  // Buscar dados separadamente para não quebrar tudo se um falhar
+  const produtos = await getProdutos();
+  const categorias = await getCategorias();
 
   // Dividir produtos para as duas seções
   const produtosProntaEntrega = produtos.slice(0, 5);
@@ -82,8 +103,8 @@ export default async function Home() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Categorias */}
-        {categorias && categorias.length > 0 && (
+        {/* Categorias - só mostra se tiver dados */}
+        {categorias.length > 0 && (
           <CategoriasSlider categorias={categorias} />
         )}
 
