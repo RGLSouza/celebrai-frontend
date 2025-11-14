@@ -1,4 +1,5 @@
-"use client"
+"use client";
+export const dynamic = "force-dynamic";
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -61,7 +62,6 @@ export default function PaginaBusca() {
   useEffect(() => {
     let resultado = [...produtos];
 
-    // Filtro por busca
     if (query) {
       resultado = resultado.filter(produto =>
         produto.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -69,18 +69,15 @@ export default function PaginaBusca() {
       );
     }
 
-    // Filtro por categoria
     if (categoriaSelecionada !== 'todas') {
       resultado = resultado.filter(p => p.category === categoriaSelecionada);
     }
 
-    // Filtro por preço
     resultado = resultado.filter(p => {
-      const preco = p.price * 5; // Multiplicador para simular preços reais
+      const preco = p.price * 5;
       return preco >= faixaPreco[0] && preco <= faixaPreco[1];
     });
 
-    // Ordenação
     switch (ordenacao) {
       case 'menor-preco':
         resultado.sort((a, b) => a.price - b.price);
@@ -94,9 +91,6 @@ export default function PaginaBusca() {
       case 'melhor-avaliacao':
         resultado.sort((a, b) => b.rating.rate - a.rating.rate);
         break;
-      default:
-        // relevância (padrão)
-        break;
     }
 
     setProdutosFiltrados(resultado);
@@ -104,7 +98,6 @@ export default function PaginaBusca() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!query.trim()) {
       alert('Por favor, digite algo para buscar!');
       return;
@@ -125,8 +118,7 @@ export default function PaginaBusca() {
           <h1 className="text-2xl md:text-3xl font-bold text-center mb-6">
             Buscar Produtos
           </h1>
-          
-          {/* Search Bar */}
+
           <form onSubmit={handleSubmit} className="flex max-w-2xl mx-auto">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -149,7 +141,7 @@ export default function PaginaBusca() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Breadcrumb e Filtros */}
+        {/* Breadcrumb e filtros */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
           <div>
             <div className="text-sm text-gray-600 mb-2">
@@ -172,21 +164,20 @@ export default function PaginaBusca() {
           </button>
         </div>
 
-        {/* Painel de Filtros */}
+        {/* Painel de filtros */}
         {mostrarFiltros && (
           <div className="bg-white rounded-xl border-2 border-gray-200 p-6 mb-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold text-gray-900">Filtrar Resultados</h3>
               <button
                 onClick={limparFiltros}
-                className="text-sm text-pink-600 hover:text-pink-700 font-semibold"
+                className="text-sm text-pink-600 hover:text-ppink-700 font-semibold"
               >
                 Limpar filtros
               </button>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              {/* Categoria */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Categoria
@@ -204,7 +195,6 @@ export default function PaginaBusca() {
                 </select>
               </div>
 
-              {/* Ordenação */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Ordenar por
@@ -222,21 +212,18 @@ export default function PaginaBusca() {
                 </select>
               </div>
 
-              {/* Faixa de Preço */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Faixa de preço: R$ {faixaPreco[0]} - R$ {faixaPreco[1]}
                 </label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="range"
-                    min="0"
-                    max="1000"
-                    value={faixaPreco[1]}
-                    onChange={(e) => setFaixaPreco([0, parseInt(e.target.value)])}
-                    className="w-full"
-                  />
-                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  value={faixaPreco[1]}
+                  onChange={(e) => setFaixaPreco([0, parseInt(e.target.value)])}
+                  className="w-full"
+                />
               </div>
             </div>
           </div>
