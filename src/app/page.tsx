@@ -4,6 +4,7 @@ import ProdutoCard from "@/componentes/Card_Produto/ProdutoCard";
 import BannerCarousel from "@/componentes/Home/Banner"
 import CategoriasSlider from "@/componentes/Home/Categorias";
 import SuccessModal from "@/componentes/Home/SuccessModal";
+import SearchBar from "@/componentes/Home/searchBar";
 
 export const metadata: Metadata = {
   title: "Celebraí - Pagina Principal",
