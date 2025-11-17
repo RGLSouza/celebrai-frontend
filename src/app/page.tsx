@@ -32,9 +32,20 @@ async function getProdutos() {
   try {
     const res = await fetch("https://fakestoreapi.com/products?limit=10", {
       cache: "no-store",
+      next: { revalidate: 0 },
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0'
+      }
     });
-    if (!res.ok) throw new Error("Falha ao buscar produtos");
-    return res.json();
+    
+    if (!res.ok) {
+      console.error("Erro ao buscar produtos:", res.status, res.statusText);
+      return [];
+    }
+    
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
     return [];
@@ -45,9 +56,20 @@ async function getCategorias() {
   try {
     const res = await fetch("https://fakestoreapi.com/products/categories", {
       cache: "no-store",
+      next: { revalidate: 0 },
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0'
+      }
     });
-    if (!res.ok) throw new Error("Falha ao buscar categorias");
-    return res.json();
+    
+    if (!res.ok) {
+      console.error("Erro ao buscar categorias:", res.status, res.statusText);
+      return [];
+    }
+    
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Erro ao buscar categorias:", error);
     return [];
@@ -55,10 +77,9 @@ async function getCategorias() {
 }
 
 export default async function Home() {
-  const [produtos, categorias] = await Promise.all([
-    getProdutos(),
-    getCategorias()
-  ]);
+  // Buscar dados separadamente para não quebrar tudo se um falhar
+  const produtos = await getProdutos();
+  const categorias = await getCategorias();
 
   // Dividir produtos para as duas seções
   const produtosProntaEntrega = produtos.slice(0, 5);
@@ -78,31 +99,15 @@ export default async function Home() {
             festa perfeita no <strong>Celebraí</strong>
           </h2>
           
-          {/* Search Bar */}
-          <form className="flex max-w-2xl mx-auto">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                name="search"
-                placeholder="Buscar 'Conjunto mesas e cadeiras'..."
-                 className="w-full bg-white pl-10 pr-4 py-3 rounded-l-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-            </div>
-            <button 
-              type="submit"
-              className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-r-lg font-medium transition-colors"
-            >
-              Buscar
-            </button>
-          </form>
+          {/* Search Bar Component */}
+          <SearchBar />
         </div>
       </div>
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Categorias */}
-        {categorias && categorias.length > 0 && (
+        {/* Categorias - só mostra se tiver dados */}
+        {categorias.length > 0 && (
           <CategoriasSlider categorias={categorias} />
         )}
 
