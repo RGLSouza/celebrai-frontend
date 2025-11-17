@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Search, CheckCircle, X } from "lucide-react";
 import ProdutoCard from "@/componentes/Card_Produto/ProdutoCard";
 import BannerCarousel from "@/componentes/Home/Banner"
 import CategoriasSlider from "@/componentes/Home/Categorias";
@@ -35,51 +36,20 @@ async function getProdutos() {
       next: { revalidate: 0 },
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0'
       }
     });
     
     if (!res.ok) {
       console.error("Erro ao buscar produtos:", res.status, res.statusText);
-      
-      // Fallback: retorna dados mock em caso de erro
-      return [
-        {
-          id: 1,
-          title: "Produto Exemplo 1",
-          price: 109.95,
-          image: "https://via.placeholder.com/300"
-        },
-        {
-          id: 2,
-          title: "Produto Exemplo 2",
-          price: 22.30,
-          image: "https://via.placeholder.com/300"
-        }
-      ];
+      return [];
     }
     
     const data = await res.json();
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
-    
-    // Fallback em caso de erro de rede
-    return [
-      {
-        id: 1,
-        title: "Produto Exemplo 1",
-        price: 109.95,
-        image: "https://via.placeholder.com/300"
-      },
-      {
-        id: 2,
-        title: "Produto Exemplo 2",
-        price: 22.30,
-        image: "https://via.placeholder.com/300"
-      }
-    ];
+    return [];
   }
 }
 
@@ -90,25 +60,20 @@ async function getCategorias() {
       next: { revalidate: 0 },
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0'
       }
     });
     
     if (!res.ok) {
       console.error("Erro ao buscar categorias:", res.status, res.statusText);
-      
-      // Fallback: categorias mock
-      return ["electronics", "jewelery", "men's clothing", "women's clothing"];
+      return [];
     }
     
     const data = await res.json();
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Erro ao buscar categorias:", error);
-    
-    // Fallback em caso de erro
-    return ["electronics", "jewelery", "men's clothing", "women's clothing"];
+    return [];
   }
 }
 
